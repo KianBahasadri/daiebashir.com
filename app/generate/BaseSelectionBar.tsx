@@ -10,7 +10,7 @@ const BaseSelectionBar = async () => {
     },
   });
   return (
-    <div className='bg-black w-screen p-10'>
+    <div className='bg-black-500 w-screen p-10 flex'>
         {baseImages.map((image) => (
           <div key={image.id} className='rounded-md overflow-hidden'>
             <Image src={image.url} alt={image.title} width={100} height={300} />

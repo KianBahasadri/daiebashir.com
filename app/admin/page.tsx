@@ -25,6 +25,7 @@ const page = () => {
                 <h1>Add Base Image</h1>
                 <form action="/api/addbaseimage" method="post" encType="multipart/form-data">
                     <input name="image" type="file" accept="image/*" className="block w-full text-sm text-gray-100 border border-gray-600 rounded-lg cursor-pointer bg-gray-800 focus:outline-none" />
+                    <input name="description" type="text" placeholder="Image Description" className="border rounded-lg ml-4 p-1" />
                     <button className="cursor-pointer text-white p-1 bg-gray-700 hover:bg-gray-500 rounded-lg">Upload</button>
                 </form>
             </div>
