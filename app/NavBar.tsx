@@ -17,8 +17,11 @@ const NavBar = () => {
         </Link>
       </div>
       <div className="flex flex-col space-y-4">
-        <Link href="/generate" className="text-white ">
-          Generate
+        <Link href="/" className="text-white">
+          Home
+        </Link>
+        <Link href="/create" className="text-white ">
+          Create
         </Link>
         <Link href="/contact" className="text-white">
           Contact

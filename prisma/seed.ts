@@ -1,6 +1,9 @@
 import dotenv from 'dotenv';
 import { PrismaClient } from '../app/generated/prisma';
 import { list } from '@vercel/blob';
+import { promisify } from 'util';
+import sizeOf from 'image-size';
+const sizeOfAsync = promisify(sizeOf);
 
 dotenv.config();
 
@@ -40,11 +43,20 @@ async function main(): Promise<void> {
 
   const baseImages = [];
   for (const blob of baseImageBlobs) {
+    // fetch image and compute dimensions
+    const response = await fetch(blob.url);
+    const buffer = Buffer.from(await response.arrayBuffer());
+    const dimensions = sizeOf(buffer);
+    const width = dimensions.width;
+    const height = dimensions.height;
+
     const baseImage = await prisma.baseImage.create({
       data: {
         title: blob.pathname.split('/').pop()?.replace(/\.[^/.]+$/, "").replace(/[-_]/g, ' ') || blob.pathname, // Get filename only, remove extension and replace dashes/underscores with spaces
         url: blob.url,
         description: `Base image from ${blob.pathname}`,
+        width,
+        height
       },
     });
     baseImages.push(baseImage);

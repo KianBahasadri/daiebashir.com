@@ -2,10 +2,10 @@ import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
 import { put } from "@vercel/blob";
 import { PrismaClient } from "../../generated/prisma";
-
-const prisma = new PrismaClient(); // instantiated prisma client
+import sharp from 'sharp';
 
 export async function POST(request: NextRequest) {
+  const prisma = new PrismaClient();
   // Check for admin-password cookie
   const cookieStore = await cookies();
   const adminCookie = cookieStore.get('admin-password');
@@ -28,16 +28,26 @@ export async function POST(request: NextRequest) {
     return new Response("Invalid image description", { status: 400 });
   }
 
+  // Read file buffer and detect its dimensions
+  const arrayBuffer = await imageFile.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  const metadata = await sharp(buffer).metadata();
+  const imageWidth = metadata.width ?? 0;
+  const imageHeight = metadata.height ?? 0;
+
   // Upload the image to Vercel Blob Storage under 'baseimage/<filename>'
   const fileName = `baseimage/${imageFile.name}`;
-  const { url } = await put(fileName, imageFile, { access: 'public' });
+  // Upload the original file buffer (or you can upload resized buffer if needed)
+  const { url } = await put(fileName, buffer, { access: 'public' });
 
   // Store the uploaded image info in the database using Prisma
   await prisma.baseImage.create({
     data: {
       title: imageFile.name,
       description: imageDescription,
-      url: url
+      url: url,
+      width: imageWidth,
+      height: imageHeight,
     }
   });
 
