@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { PrismaClient } from "./generated/prisma";
-import { useEffect, useRef } from 'react';
 import AutoScroll from "./autoScroll";
+
+export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   const prisma = new PrismaClient();
