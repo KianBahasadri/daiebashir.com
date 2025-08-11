@@ -4,6 +4,8 @@ import { PrismaClient } from '../generated/prisma'
 import Form from 'next/form'
 import { Runware } from "@runware/sdk-js";
 
+export const dynamic = 'force-dynamic';
+
 const apiKey = process.env.RUNWARE_API_KEY;
 if (!apiKey) {
   throw new Error("Missing RUNWARE_API_KEY");
@@ -36,7 +38,7 @@ async function sendRunwareGeneration(formData: FormData) {
       seedImage: baseImageUrl,
       width,
       height,
-      strength: 0.6,
+      strength: 0.7,
     });
   console.log('Generated images:', images);
   if (!images || images.length === 0 || typeof images[0].imageURL !== 'string') {
