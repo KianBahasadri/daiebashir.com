@@ -1,12 +1,8 @@
 import Link from 'next/link'
 import React from 'react'
 import MusicPlayer from './MusicPlayer'
-import fs from 'fs'
-import path from 'path'
 
-const musicDirectory = path.join(process.cwd(), 'public/music')
-const files = fs.readdirSync(musicDirectory)
-const tracklist = files.map(file => `/music/${file}`)
+const tracklist = ['1.mp3', '2.mp3', '3.mp3'].map((file) => `/music/${file}`) // Static track list to avoid filesystem cwd issues on Vercel
 
 const NavBar = () => {
   return (
