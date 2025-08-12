@@ -2,8 +2,8 @@ import { redirect } from 'next/navigation'
 import React from 'react'
 import BaseSelectionBar from './BaseSelectionBar'
 import { PrismaClient } from '../generated/prisma'
-import Form from 'next/form'
 import { Runware } from "@runware/sdk-js";
+import CreateForm from './CreateForm';
 
 export const dynamic = 'force-dynamic';
 
@@ -39,7 +39,7 @@ async function sendRunwareGeneration(formData: FormData) {
     seedImage: baseImageUrl,
     width,
     height,
-    strength: 0.7,
+    strength: 0.71,
   });
   console.log('Generated images:', images);
   if (!images || images.length === 0 || typeof images[0].imageURL !== 'string') {
@@ -77,58 +77,22 @@ const CreatePage = async ({ searchParams }: any) => {
   const baseImages = await prisma.baseImage.findMany({
     orderBy: { createdAt: 'desc' },
   })
-  
-  const didSucceed = typeof searchParams.imageUrl === 'string';
+
+  const params = await searchParams
+  const imageUrl = params.imageUrl;
+  const didSucceed = typeof imageUrl === 'string';
 
   return (
     <div>
       <BaseSelectionBar baseImages={baseImages} />
-      <div className='flex'>
-        <Form action={sendRunwareGeneration} className='ml-128 flex flex-col items-center space-y-4 p-10'>
-          <img
-            src={baseImages[0]?.url}
-            alt='Base Image Preview'
-            width={300}
-            height={300}
-            className='rounded-lg shadow-lg'
-            id='baseimage-preview'
-          />
-          <input
-            name='prompt'
-            type='text'
-            placeholder='Enter your prompt here'
-            className='w-full max-w-md p-2 border border-gray-300 rounded-lg'
-          />
-          <input
-            type='hidden'
-            name='baseImageUrl'
-            id='baseImageUrl'
-            value={baseImages[0]?.url}
-          />
-          <input
-            type='hidden'
-            name='baseImageWidth'
-            id='baseImageWidth'
-            value={baseImages[0]?.width}
-          />
-          <input
-            type='hidden'
-            name='baseImageHeight'
-            id='baseImageHeight'
-            value={baseImages[0]?.height}
-          />
-          <input
-            type='submit'
-            className='cursor-pointer bg-white text-black font-bold text-lg py-1 px-3 rounded'
-            value='Generate'
-          />
-        </Form>
+      <div className='flex justify-center space-x-16'>
+        <CreateForm baseImages={baseImages} action={sendRunwareGeneration} />
         {didSucceed && (
           <div>
             <div className="mb-4 p-3 bg-green-100 text-green-800 rounded text-center max-w-md mx-auto">
               🎉 Image generated successfully!
               <img
-                src={searchParams.imageUrl!}
+                src={imageUrl!}
                 alt='Generated Image'
                 className='mt-2 rounded-lg shadow-lg mx-auto'
                 width={300}

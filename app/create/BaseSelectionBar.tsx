@@ -13,7 +13,7 @@ const BaseSelectionBar: React.FC<BaseSelectionBarProps> = ({ baseImages }) => {
   );
 
   return (
-    <div className='bg-black-500 w-screen p-10 text-center'>
+    <div className='bg-black-500 w-auto p-10 text-center'>
       <h1 className='text-white text-3xl font-semibold pb-4'> Select a Base Image </h1>
       <div className='flex space-x-4'>
         {baseImages.map((image) => (

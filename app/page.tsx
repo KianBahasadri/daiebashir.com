@@ -46,6 +46,7 @@ export default async function Home() {
             {generations
               .filter((generation) => generation.baseImageId === baseImage.id)
               .map((generation) => (
+                <a href={generation.url} key={generation.id} className="shrink-0">
                 <Image
                   key={generation.id}
                   src={generation.url}
@@ -54,6 +55,7 @@ export default async function Home() {
                   height={200}
                   className="shrink-0"
                 />
+                </a>
               ))
             }
           </div>
