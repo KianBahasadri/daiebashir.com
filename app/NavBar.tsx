@@ -6,7 +6,7 @@ const tracklist = ['1.mp3', '2.mp3', '3.mp3'].map((file) => `/music/${file}`) //
 
 const NavBar = () => {
   return (
-    <nav className="bg-linear-to-l from-black-500 to-gray-900 w-48 h-screen p-6 flex flex-col">
+    <nav className="bg-linear-to-l from-black-500 to-gray-900 w-48 p-6 md:h-full md:flex-col">
       <div className="mb-8">
         <Link href="/" className="text-white text-xl font-semibold">
           daiebashir.com
@@ -26,7 +26,7 @@ const NavBar = () => {
           Admin
         </Link>
       </div>
-      <div className="fixed bottom-16">
+      <div className="md:pt-16 md:mt-8">
         <MusicPlayer tracks={tracklist} />
       </div>
     </nav>

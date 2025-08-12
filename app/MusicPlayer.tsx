@@ -10,7 +10,7 @@ interface MusicPlayerProps {
 
 const MusicPlayer = ({ tracks }: MusicPlayerProps) => {
   const [currentTrack, setCurrentTrack] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
