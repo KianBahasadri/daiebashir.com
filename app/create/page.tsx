@@ -70,20 +70,15 @@ async function sendRunwareGeneration(formData: FormData) {
   redirect('/create?imageUrl=' + encodeURIComponent(images[0].imageURL));
 }
 
-type CreatePageProps = {
-  searchParams?: {
-    imageUrl?: string
-  }
-}
+// inline props type for Next.js App Router
 
-const CreatePage = async ({ searchParams }: CreatePageProps) => {
+const CreatePage = async ({ searchParams }: any) => {
   const prisma = new PrismaClient();
   const baseImages = await prisma.baseImage.findMany({
     orderBy: { createdAt: 'desc' },
   })
-
-  const params = await searchParams;
-  const didSucceed = typeof params?.imageUrl === 'string';
+  
+  const didSucceed = typeof searchParams.imageUrl === 'string';
 
   return (
     <div>
@@ -133,7 +128,7 @@ const CreatePage = async ({ searchParams }: CreatePageProps) => {
             <div className="mb-4 p-3 bg-green-100 text-green-800 rounded text-center max-w-md mx-auto">
               🎉 Image generated successfully!
               <img
-                src={params?.imageUrl}
+                src={searchParams.imageUrl!}
                 alt='Generated Image'
                 className='mt-2 rounded-lg shadow-lg mx-auto'
                 width={300}
