@@ -9,16 +9,11 @@ interface CreateFormProps {
 }
 
 export default function CreateForm({ baseImages, action }: CreateFormProps) {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    // Prevent the default behavior if needed
-    // event.preventDefault(); // if you want to prevent form submission, but since action is server action it may be handled natively
-    alert('Image generating, please wait');
-  };
   const notify = () => toast("Image generating");
 
   return (
     <div>
-      <ToastContainer theme="dark" />
+      <ToastContainer theme="dark" autoClose={7500} />
       <form action={action} onSubmit={notify} className="flex flex-col items-center space-y-4">
         <img
           src={baseImages[0]?.url}
